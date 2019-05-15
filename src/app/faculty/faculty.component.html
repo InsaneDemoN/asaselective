@@ -1,0 +1,80 @@
+<div>
+    <div *ngIf="!pageloaded">
+        <app-loader></app-loader>
+    </div>
+    <div *ngIf="pageloaded">
+        <div class="text-center">
+            <div>
+                <h2>Welcome {{name}}</h2>
+            </div>
+            <br/>
+        </div>
+        <div class="text-center faculty" *ngFor="let elective of electives">
+            <div class="container">
+                <h4>{{elective.coursename}}</h4>
+                <div>
+                    <div *ngIf="elective" class="text-center">
+                        <form>
+                            <div class="form-group row">
+                                <label for="coursecode" class="col-md-4 col-form-label">Course code:</label>
+                                <div class="col-md-6">
+                                    <input type="text" readonly class="form-control-plaintext" id="coursecode" value="{{elective.coursecode}}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="limit" class="col-md-4 col-form-label">Student Limit:</label>
+                                <div class="col-md-8">
+                                    <input type="text" readonly class="form-control-plaintext" id="limit" value="{{elective.limit}}">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="text-lg-right cont ">
+                    <div class="float-left"> <input class="form-control is-running" type="text" name="search" [(ngModel)]="filter" placeholder="Search"></div>
+                    <a class="excel-icon" (click)="exportAsXLSX(studentsByElective[elective.coursename], elective.coursename)"><i  class="fas fa-file-excel text-success fa-2x"></i></a>
+                </div>
+                <table *ngIf="studentsByElective !== {}" class="table table-responsive-lg  table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Roll No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Programme</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let student of studentsByElective[elective.coursename] | filter: filter | paginate: { itemsPerPage: 10, currentPage: p }; let ndx = index">
+                            <td>{{ndx+1}}</td>
+                            <td>{{student.studentrollno}}</td>
+                            <td>{{student.studentname}}</td>
+                            <td>{{student.studentdepartment}}</td>
+                            <td>{{student.studentprogramme}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="1">
+                                <p *ngIf="studentsByElective[elective.coursename]">Total: {{studentsByElective[elective.coursename].length}}</p>
+                            </td>
+                            <td colspan="1">
+                                <input type="number" class="form-control bg-transparent" [(ngModel)]="studentItemsperPage">
+                            </td>
+                            <td colspan="3">
+                                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+
+
+                </table>
+                <div *ngIf="studentsByElective === {}">
+                    <p>No students registered</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<div>
+    <div *ngIf="!pageloaded">
+        <app-loader></app-loader>
+    </div>
+    <div *ngIf="pageloaded">
+        <div class="container">
+            <div class="hd">
+                <h1>Welcome Admin</h1>
+            </div>
+        </div>
+        <br/>
+        <hr/>
+        <div class="row">
+
+            <div class="col-sm-5 d-flex justify-content-md-end justify-content-center">
+                <h5>Registration Status &nbsp; -></h5>
+            </div>
+            <div class="col-sm-5 d-flex justify-content-center">
+                <input class="btn btn-block" (click)="toggleRegistration()" type="button" [ngClass]="registration ? 'btn-success' : 'btn-danger'" [value]="registration ? 'OPEN' : 'CLOSED'" />
+            </div>
+
+        </div>
+        <br/>
+        <section>
+            <div class='photo-grid-container'>
+                <div class='photo-grid text-center'>
+                    <div class='photo-grid-item first-item animated slideInLeft'>
+                        <div class="media-body">
+                            <h3>Elective Details</h3>
+                            <p>Get all details about all the electives and add new Elective if required</p>
+                            <p><a class="btn btn-primary" routerLink="/admin/electives">Details</a></p>
+                        </div>
+                    </div>
+                    <div class='photo-grid-item animated zoomIn'>
+                        <div class="media-body">
+                            <h3>Create Faculty</h3>
+                            <p>Create a new Faculty user according to the department</p>
+                            <p><a class="btn btn-primary" routerLink="/admin/create">Create</a></p>
+                        </div>
+                    </div>
+                    <div class='photo-grid-item animated slideInRight'>
+                        <div class="media-body">
+                            <h3>List Users</h3>
+                            <p>Displays and edit all the registered users</p>
+                            <p><a class="btn btn-primary" routerLink="/admin/users">List Users</a></p>
+                        </div>
+                    </div>
+                    <div class='photo-grid-item animated slideInLeft'>
+                        <div class="media-body">
+                            <h3>Update Elective</h3>
+                            <p>Update Elective details</p>
+                            <p><a class="btn btn-primary" routerLink="/admin/update/elective">Update Elective</a></p>
+                        </div>
+                    </div>
+                    <div class='photo-grid-item animated slideInRight'>
+                        <div class="media-body">
+                            <h3>Update User</h3>
+                            <p>Update User details</p>
+                            <p><a class="btn btn-primary" routerLink="/admin/update/user">Update User</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

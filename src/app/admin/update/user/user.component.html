@@ -1,0 +1,50 @@
+<div class="container">
+    <div *ngIf="usersloaded" class="text-center">
+        <h1 class="head">Update User</h1>
+        <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="selectedname">Select User</label>
+                    <select class="form-control" name="selectedname" id="selectedname" formControlName="selectedname">
+                        <option [ngValue]="'none'" disabled selected>Please select User</option>
+                        <option *ngFor="let user of users" [ngValue]="user.username">{{user.username}}</option>
+                  </select>
+                </div>
+                <hr/>
+                <label for="name">Name</label>
+                <input type="text" class="form-control col" name="name" formControlName="name" [ngClass]="{ 'is-invalid': name.invalid && name.touched, 'is-valid': name.valid  }" required>
+                <div *ngIf="name.invalid && name.touched" class="invalid-feedback">Invalid name</div>
+            </div>
+            <div class="form-group">
+                <label for="username">Username </label>
+                <input type="text" class="form-control col" [ngClass]="{ 'is-invalid': username.invalid && username.touched, 'is-valid': username.valid  }" name="username" formControlName="username" required />
+                <div *ngIf="username.invalid && username.touched" class="invalid-feedback">Username is invalid</div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email </label>
+                <input type="text" class="form-control col" oninput="this.value = this.value.toLowerCase()" [ngClass]="{ 'is-invalid': email.invalid && email.touched, 'is-valid': email.valid  }" name="email" formControlName="email" required />
+                <div *ngIf="email.invalid && email.touched" class="invalid-feedback">email is invalid</div>
+            </div>
+            <div class="form-group">
+                <label for="name">Enter Department</label>
+                <select class="form-control col" name="department" id="department" formControlName="department" required>
+                  <ng-container *ngIf="!isAdmin"><option *ngFor="let department of departments"  [ngValue]="department">{{department}}</option></ng-container>
+                  <option value="Administrative" *ngIf="isAdmin">Administrative</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="name">Programme</label>
+                <input type="text" class="form-control col" name="programme" formControlName="programme" />
+            </div>
+            <div>
+                <button [disabled]="updateForm.invalid" type="submit" class="btn btn-dark">Update</button>
+            </div>
+            <div *ngIf="submitted && updateFailed" class="alert alert-danger alert-dismissible">{{errorMessage}}</div>
+            <div *ngIf="submitted && !updateFailed" class="alert alert-success alert-dismissible">{{successMessage}}</div>
+        </form>
+
+    </div>
+    <div *ngIf="!usersloaded">
+        <app-loader></app-loader>
+    </div>
+</div>

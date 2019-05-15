@@ -1,0 +1,70 @@
+<div class="wrapper">
+    <div *ngIf="!pageloaded">
+        <app-loader></app-loader>
+    </div>
+    <div class="container" *ngIf="pageloaded">
+        <div class="text-center">
+            <h1 class="h1">Update Elective</h1><br/>
+
+
+            <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="selective">Select Elective</label>
+                    <select class="form-control" name="selective" id="selective" formControlName="selective">
+                      <option [ngValue]="'none'" disabled selected>Please choose elective</option>
+                      <option *ngFor="let elective of electives" [ngValue]="elective.coursename">{{elective.coursename}}</option>
+                </select>
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <label for="coursecode">Course Code</label>
+                    <input type="text" class="form-control col" name="coursecode" id="coursecode" formControlName="coursecode" required>
+                </div>
+                <div class="form-group">
+                    <label for="coursename">Course Name</label>
+                    <input type="text" class="form-control col" name="coursename" id="coursename" formControlName="coursename" required>
+                </div>
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <select class="form-control col" name="department" id="department" formControlName="department" required>
+                    <option *ngFor="let department of departments" [ngValue]="department">{{department}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                    <label for="limit">Student Limit</label>
+                    <input type="number" class="form-control col" name="limit" id="limit" formControlName="limit" required>
+                </div>
+                <div class="form-group">
+                    <label for="overview">Overview</label>
+                    <input type="text" class="form-control col" name="overview" id="overview" formControlName="overview">
+                </div>
+                <div class="form-group">
+                    <label for="unit1" data-toggle="tooltip" data-placement="top">Unit-1</label>
+                    <textarea class="form-control col" name="unit1" id="unit1" rows="2" formControlName="unit1"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="unit2" data-toggle="tooltip" data-placement="top">Unit-2</label>
+                    <textarea class="form-control col" name="unit2" id="unit2" rows="2" formControlName="unit2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="unit3" data-toggle="tooltip" data-placement="top">Unit-3</label>
+                    <textarea class="form-control col" name="unit3" id="unit3" rows="2" formControlName="unit3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="unit4" data-toggle="tooltip" data-placement="top">Unit-4</label>
+                    <textarea class="form-control col" name="unit4" id="unit4" rows="2" formControlName="unit4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="unit5" data-toggle="tooltip" data-placement="top">Unit-5</label>
+                    <textarea class="form-control col" name="unit5" id="unit5" rows="2" formControlName="unit5"></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+                <div *ngIf="submitted && updateFailed" class="alert alert-danger alert-dismissible">{{errorMessage}}</div>
+                <div *ngIf="submitted && !updateFailed" class="alert alert-success alert-dismissible">{{successMessage}}</div>
+            </form>
+        </div>
+    </div>
+
+</div>

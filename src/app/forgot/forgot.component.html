@@ -1,0 +1,115 @@
+<div class="wrapper flex-container   ">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="panel panel-default" *ngIf="!isOTPGenerated">
+                    <div class="panel-body">
+                        <a routerLink="/login"><i class="fas fa-arrow-left"></i></a>
+                        <div class="text-center">
+                            <h3><i class="fa fa-lock fa-4x"></i></h3>
+                            <h2 class="text-center">Forgot Password?</h2>
+                            <p>You can reset your password here.</p>
+                            <div class="panel-body">
+                                <form class="form" (ngSubmit)="generateForm.form.valid && validateUser()" #generateForm="ngForm">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" #username="ngModel" [(ngModel)]="gForm.username" [ngClass]="{ 'is-invalid': username.invalid && username.touched, 'is-valid': username.valid  }" placeholder="username" name="username" required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="email" class="form-control" #email="ngModel" [(ngModel)]="gForm.email" [ngClass]="{ 'is-invalid': email.invalid && email.touched, 'is-valid': email.valid  }" placeholder="Email" name="email" required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" *ngIf="!loading">
+                                            <input class="btn btn-lg btn-primary btn-block" value="Send OTP" type="submit">
+                                        </div>
+                                        <div class="d-flex justify-content-center" *ngIf="loading">
+                                            <div class="spinner-border text-danger" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="generateForm.submitted && !isUserValidated" class="alert alert-warning" role="alert">
+                                            <strong>{{errorMessage}}</strong>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel" *ngIf="isOTPGenerated && !loading && !isOTPValid">
+                    <div class="panel-body">
+                        <a routerLink="/login"><i class="fas fa-arrow-left"></i></a>
+                        <div class="text-center">
+                            <h3><i class="fas fa-key fa-4x"></i></h3>
+                            <h2 class="text-center">Type the OTP</h2>
+                            <p>An OTP has been send to your mail</p>
+                            <div class="panel-body">
+
+                                <form class="form" (ngSubmit)="vForm.form.valid && validateOtp()" #vForm="ngForm">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" #otpnum="ngModel" [(ngModel)]="validateForm.otpnum" name="otpnum" required/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="btn btn-lg btn-primary btn-block" value="Validate" type="submit">
+                                        </div>
+                                        <div *ngIf="vForm.submitted && !isOTPValid" class="alert alert-warning">Invalid OTP</div>
+                                    </fieldset>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel" *ngIf="isOTPValid && isOTPGenerated && !passwordFormSubmitted">
+                    <div class="panel-body">
+                        <a routerLink="/login"><i class="fas fa-arrow-left"></i></a>
+                        <div class="text-center">
+                            <h3><i class="fas fa-key fa-4x"></i></h3>
+                            <h2 class="text-center">OTP Validated</h2>
+                            <p>You can change the password</p>
+                            <div class="panel-body">
+
+                                <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control col" name="password" formControlName="password" [ngClass]="{ 'is-invalid': password.invalid && password.touched, 'is-valid': password.valid  }" />
+                                            <div *ngIf="password.errors && (password.touched || password.dirty )" class="invalid-feedback">
+                                                <p *ngIf="password.hasError('required')">Password required</p>
+                                                <p *ngIf="password.hasError('minlength')">Password should contain minimum 6 letters</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control col" name="cpassword" [ngClass]="{ 'is-invalid': (passwordForm.hasError('mismatch') || cpassword.invalid) && cpassword.touched, 'is-valid': !passwordForm.hasError('mismatch') && cpassword.touched && cpassword.valid  }"
+                                                formControlName="cpassword" />
+                                            <div *ngIf="(passwordForm.hasError('mismatch') || cpassword.invalid) && cpassword.touched" class="invalid-feedback">
+                                                <p>Password Mismatch</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="btn btn-lg btn-primary btn-block" [disabled]="passwordForm.invalid" value="Update Password" type="submit">
+                                        </div>
+                                    </fieldset>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default" *ngIf="passwordFormSubmitted">
+                    <div class="panel-body">
+                        <a routerLink="/login"><i class="fas fa-arrow-left"></i></a>
+                        <div *ngIf="updatePassFailed" class="alert alert-warning">{{errorMessage}}</div>
+                        <div *ngIf="updatePassSuccess" class="alert alert-success">{{ successMessage }} You can login to your account</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <br/>
+    <a routerLink="/faculty"><i class="fas bckbtn fa-arrow-circle-left text-danger fa-2x"></i></a>
+    <div *ngIf="details" class="text-center">
+        <form>
+            <div class="form-group row">
+                <label for="FacultyName" class="col-md-4 col-form-label">Faculty Name:</label>
+                <div class="col-md-8">
+                    <input type="text" readonly class="form-control-plaintext" id="FacultyName" value="{{details.name}}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="Facultyroll" class="col-md-4 col-form-label">Roll No:</label>
+                <div class="col-md-8">
+                    <input type="text" readonly class="form-control-plaintext" id="Facultyroll" value="{{details.username}}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-md-4 col-form-label">Email:</label>
+                <div class="col-md-8">
+                    <input type="text" readonly class="form-control-plaintext" id="email" value="{{details.email}}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="FacultyName" class="col-md-4 col-form-label">Department:</label>
+                <div class="col-md-8">
+                    <input type="text" readonly class="form-control-plaintext" id="department" value="{{details.department}}">
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>

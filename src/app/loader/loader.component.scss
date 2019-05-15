@@ -1,0 +1,36 @@
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    .spinner-grow {
+        width: 4rem;
+        height: 4rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        .spinner-grow {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        .spinner-grow {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+    }
+}

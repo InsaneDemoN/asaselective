@@ -1,0 +1,164 @@
+<div class="wrapper">
+    <div *ngIf="!pageloaded">
+        <app-loader></app-loader>
+    </div>
+    <div *ngIf="pageloaded" class="text-center">
+        <div class="container">
+            <h2>Student Details</h2>
+            <div class="text-md-right custom-bar">
+                <div class="float-left"> <input class="form-control is-running" type="text" name="search" [(ngModel)]="filter" placeholder="Search"></div>
+                <a class="excel-icon" (click)="exportAsXLSX(students, 'Allstudents')"><i  class="fas fa-file-excel text-success fa-2x"></i></a>
+            </div>
+            <table *ngIf="students" class="table table-responsive-md table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Roll No</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Programme</th>
+                        <th scope="col">Elective</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let student of students | filter: filter | paginate: { itemsPerPage: studentItemsperPage, currentPage: page, id: 'studentlist' }; let ndx = index">
+                        <td>{{ndx+1}}</td>
+                        <td>{{student.studentrollno}}</td>
+                        <td>{{student.studentname}}</td>
+                        <td>{{student.studentdepartment}}</td>
+                        <td>{{student.studentprogramme}}</td>
+                        <td>{{student.elective}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <p *ngIf="students">Total: {{students.length}}</p>
+                        </td>
+                        <td colspan="1">
+                            <input type="number" class="form-control bg-transparent" [(ngModel)]="studentItemsperPage">
+                        </td>
+                        <td colspan="3">
+                            <pagination-controls (pageChange)="page = $event" id="studentlist"></pagination-controls>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <br />
+        <div class="container">
+            <h4>Elective</h4>
+            <div class="text-md-right custom-bar">
+                <div class="float-left"> <input class="form-control is-running" type="text" name="search" [(ngModel)]="efilter" placeholder="Search"></div>
+
+                <div class="float-right"><a class="excel-icon" (click)="exportAsXLSX(electives, 'electives')"><i  class="fas fa-file-excel text-success fa-2x"></i></a></div>
+                <br>
+
+            </div>
+            <div class="container text-center"><button class="btn btn-md btn-outline-danger">Delete All</button></div>
+            <br>
+            <table *ngIf="electives" class="table table-responsive-md table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Course Code</th>
+                        <th scope="col">Course Name</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Limit</th>
+                        <th scope="col">Delete</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let elective of electives | filter: efilter">
+                        <td>{{elective.coursecode}}</td>
+                        <td>{{elective.coursename}}</td>
+                        <td>{{elective.department}}</td>
+                        <td>{{elective.limit}}</td>
+                        <td><button class="btn btn-danger" (click)="deleteElective(elective.coursename)">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td class="table-success" colspan="5">Add Elective</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="form-control" type="text" id="newElectiveCode" [(ngModel)]="newElective.code" name="newElectiveCode" required/>
+                        </td>
+                        <td>
+                            <input class="form-control" type="text" id="newElectiveName" [(ngModel)]="newElective.name" name="newElectiveName" required/>
+                        </td>
+                        <td>
+                            <select class="form-control" name="department" id="newElectiveDept" [(ngModel)]="newElective.dept" name="newElectiveDept" required>
+                              <option *ngFor="let department of departments" [ngValue]="department">{{department}}</option>
+                          </select>
+                        </td>
+                        <td>
+                            <input class="form-control" type="number" id="newElectiveLimit" [(ngModel)]="newElective.limit" name="newElectiveLimit" required/>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-secondary" type="button" (click)="addElective()">Add</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="alert alert-danger alert-dismissible" *ngIf="electiveFormSubmitted && addElectiveFailed">{{errorMessage}}</div>
+            <br/>
+            <br />
+            <div *ngFor="let elective of electives; let i = index">
+                <h4>{{elective.coursename}}</h4>
+                <div class="text-md-right custom-bar">
+                    <div class="float-left"> <input class="form-control is-running" type="text" name="search" [(ngModel)]="electiveFilter[i]" placeholder="Search"></div>
+                    <a class="excel-icon" (click)="exportAsXLSX(studentsByElective[elective.coursename], elective.coursename)"><i  class="fas fa-file-excel text-success fa-2x"></i></a>
+                </div>
+                <table *ngIf="students" class="table table-responsive-md table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Roll No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Programme</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let student of studentsByElective[elective.coursename] | filter: electiveFilter[i] | paginate: { itemsPerPage: 10, currentPage: p[i] }; let ndx = index">
+                            <td>{{ndx+1}}</td>
+                            <td>{{student.studentrollno}}</td>
+                            <td>{{student.studentname}}</td>
+                            <td>{{student.studentdepartment}}</td>
+                            <td>{{student.studentprogramme}}</td>
+                            <td><button class="btn btn-danger" (click)="deleteStudentFromElective(student)">Delete</button></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">Add student</td>
+                            <td colspan="2">
+                                <select name="studentlist" [(ngModel)]="studentlist" class="form-control">
+                                  <option value="default" selected>Select a student</option>
+                                  <option *ngFor="let stud of unregisteredStudent" [ngValue]="stud.studentrollno">{{stud.studentrollno}}</option>
+                                </select>
+                            </td>
+                            <td><button [disabled]="studentlist === 'default'" (click)="updateStudentElective(elective.coursename, elective.department)" class="btn btn-success">Add</button></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">
+                                <p *ngIf="studentsByElective[elective.coursename]">Total: {{studentsByElective[elective.coursename].length}}</p>
+                            </td>
+                            <td colspan="4">
+                                <pagination-controls (pageChange)="p[i] = $event"></pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <hr>
+                <br/>
+            </div>
+            <br/>
+
+            <p *ngIf="!students">No data</p>
+
+        </div>
+    </div>
+</div>

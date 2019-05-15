@@ -1,0 +1,53 @@
+<div class="container">
+    <div>
+        <a routerLink="/admin"><i class="fas bckbtn fa-arrow-circle-left text-danger fa-2x"></i></a>
+        <a (click)="reloadPage()"><i class="fas bckbtn fa-redo fa-2x text-primary"></i></a>
+        <div class="float-right delete"><button (click)="deleteAllUsers()" class="btn btn-outline-danger">Delete All</button></div>
+        <input class="form-control is-running" type="text" name="search" [(ngModel)]="filter" placeholder="Search">
+    </div>
+    <br>
+    <table *ngIf="users" class="table table-responsive-lg table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Department</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users | filter: filter | paginate: { itemsPerPage: usersperPage, currentPage: p }; let ndx = index">
+                <td>{{ ndx+1}}</td>
+                <td>{{ user.name}}</td>
+                <td>{{ user.username}}</td>
+                <td>{{ user.department}}</td>
+                <td>{{ user.email}}</td>
+                <td>{{ user.roles[0].name }}</td>
+                <td>
+                    <button type="button" (click)="editUser(user.username)" routerLink="/admin/update/user" class="btn btn-info">Edit</button>
+                </td>
+                <td>
+                    <button type="button" *ngIf="user.username !== currentAdmin" (click)="deleteUser(user.username)" class="btn btn-danger">Delete</button>
+                    <i *ngIf="user.username === currentAdmin" class="fas d-flex justify-content-center fa-laugh-beam fa-3x text-warning"></i>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <p *ngIf="users">Total: {{users.length}}</p>
+                </td>
+                <td colspan="1">
+                    <input type="number" class="form-control bg-transparent" [(ngModel)]="usersperPage">
+                </td>
+                <td colspan="3">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

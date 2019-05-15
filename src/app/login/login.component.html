@@ -1,0 +1,47 @@
+<div class="flex-container">
+
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <h1>Login to your Account</h1>
+        </div>
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm">
+            <div class="form-group">
+                <label for="inputusername">Username</label>
+                <input type="text" class="form-control col" id="inputusername" name="username" [(ngModel)]="form.username" #username="ngModel" placeholder="Enter username(ID)" required>
+                <div [hidden]="username.valid || username.pristine" class="alert alert-danger">Name is required</div>
+            </div>
+            <div class="form-group">
+                <label for="InputPassword">Password</label>
+                <input type="password" name="password" [(ngModel)]="form.password" [class.is-invalid]="password.touched && password.invalid " #password="ngModel" class="form-control col " id="InputPassword" placeholder="Password" required>
+                <div [hidden]="password.valid || password.pristine" class="alert alert-danger">Password is required</div>
+            </div>
+            <div class="d-flex justify-content-center" *ngIf="!loading">
+                <button type="submit" [disabled]="!f.form.valid" class="btn button btn-dark">Login</button>
+            </div>
+            <div class="d-flex justify-content-center" *ngIf="loading">
+                <div class="spinner-border text-danger" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger">Login failed: {{errorMessage}}</div>
+        </form>
+        <hr />
+        <div class="sub-menu">
+            <div class="menu-item">
+                <p>Don't have an account?</p>
+                <div class="d-flex justify-content-center">
+                    <a routerLink="/register"><button type="submit" class="btn reg btn-outline-success">Register</button></a>
+                </div>
+
+            </div>
+            <div class="menu-item">
+                <p>Forgot password?</p>
+                <div class="d-flex justify-content-center">
+                    <a class="btn btn-outline-primary rounded" routerLink="/forgot">Forgot</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Custom.scss
+// Option B: Include parts of Bootstrap
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
+// Required
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+// Optional
+@import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/type";
+@import "../node_modules/bootstrap/scss/images";
+@import "../node_modules/bootstrap/scss/code";
+@import "../node_modules/bootstrap/scss/grid";
+body {
+    background-image: url('./assets/bgi.jpg');
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}

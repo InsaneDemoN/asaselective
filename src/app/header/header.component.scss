@@ -1,0 +1,36 @@
+$color: rgb(164, 18, 63);
+nav {
+    z-index: 999;
+    background-color: $color;
+    li a.nav-link {
+        font-size: 1.2rem;
+        color: white;
+        padding: 5px 20px;
+        border: 1 px solid #fff;
+    }
+}
+
+.user-name:hover {
+    cursor: pointer;
+}
+
+.title {
+    font-family: 'Montserrat', sans-serif;
+}
+
+@media screen and (max-width: 600px) {
+    .title {
+        display: none;
+    }
+}
+
+.dropdown-menu {
+    background-color: $color;
+    margin-right: 100px;
+    width: 10rem;
+    height: 10rem;
+}
+
+.dropdown-item:hover {
+    background-color: rgb(112, 13, 43);
+}

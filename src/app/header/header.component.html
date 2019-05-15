@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-md navbar-dark sticky-top" role="navigation">
+
+    <a class="navbar-brand" routerLink="/">
+        <img src="assets/logo.png" width="150" height="42" alt="">
+    </a>
+    <a class="navbar-brand title" routerLink="/">{{appTitle}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    <div class="collapse navbar-collapse" id="navbarToggler">
+
+
+        <ul class="navbar-nav ml-auto mt-auto mt-md-auto float-right">
+
+            <li class="nav-item">
+                <a *ngIf="!info.token" class="nav-link active" routerLink="/login">Login</a>
+            </li>
+            <li *ngIf="info.token" class="nav-item dropdown">
+                <a class="nav-link active dropdown-toggle user-name" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{name}}
+                    </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item text-light" routerLink="/change">Change Password</a>
+                    <a class="dropdown-item text-light" routerLink="/login">Main Page</a>
+                    <a class="dropdown-item text-light" *ngIf="isFaculty" routerLink="/faculty/faculty-profile">Profile</a>
+                    <a class="dropdown-item text-light" *ngIf="isStudent" routerLink="/student/profile">Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-light" routerLink="/login" (click)="logout()">Logout</a>
+                </div>
+            </li>
+            <li *ngIf="!info.token" class="nav-item">
+                <a class="nav-link active" routerLink="/register">Register</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" routerLink="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+
+    </div>
+
+</nav>

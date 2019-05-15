@@ -1,0 +1,107 @@
+<div class="wrapper">
+    <div *ngIf="!pageloaded">
+        <app-loader></app-loader>
+    </div>
+    <div *ngIf="pageloaded">
+        <div class="container">
+            <h2 class="head text-black-50">Welcome {{studentname}}</h2>
+            <div class="text text-center" *ngIf="registered; else registerForm">
+                <br/>
+                <h3>Already Registered</h3>
+                <br/>
+                <div class="d-flex justify-content-center">
+                    <button type="button" routerLink="/student/profile" class="btn btn-info">Check Profile</button>
+                </div>
+                <br/>
+                <hr/>
+                <div class="card">
+                    <div class="card-header text-light bg-dark">
+                        {{registeredElective.coursename}}
+                    </div>
+                    <div class="card-body text-dark bg-transparent">
+                        <h5 class="card-title">Faculty : {{registeredElective.faculty}}</h5>
+                        <div *ngIf="registeredElective.details.length <= 20">
+                            <p class="card-text">{{registeredElective.details}}</p>
+                        </div>
+                        <div *ngIf="registeredElective.details.length > 20">
+                            <div *ngFor="let detail of objectKeys(electiveDetails[registeredElective.coursecode])">
+                                <h6 class="card-title">{{detail}}</h6>
+                                <p class="card-text">{{electiveDetails[registeredElective.coursecode][detail]}}</p>
+                                <hr/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #registerForm>
+                <div class="mce-container-body">
+                    <h4 class="head text-primary">Choose an Elective</h4>
+                    <form name="form" (ngSubmit)="elecreg.form.valid && setElective()" #elecreg="ngForm">
+                        <div class="form-group">
+                            <select class="form-control" [(ngModel)]="electiveReg.selectedElective" #selectedElective="ngModel" name="selectedElective" required>
+                              <option [ngValue]="'none'" disabled selected>Please choose elective</option>
+                            <option *ngFor="let electives of elective" [ngValue]="electives">{{electives}}</option>
+                        </select>
+                        </div>
+                        <div [hidden]="selectedElective.valid || selectedElective.pristine" class="alert alert-danger">
+                            Select an Elective
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" [(ngModel)]="electiveReg.agree" id="agree" [disabled]="selectedElective.invalid" #agree="ngModel" name="agree" required>
+                            <label class="form-check-label" for="agree">I agree to join the elective {{electiveReg.selectedElective}}</label>
+                        </div>
+                        <hr/>
+                        <div class="form-group d-flex justify-content-center">
+                            <button type="submit" [disabled]="!elecreg.form.valid" class="btn btn-warning">Register</button>
+                        </div>
+                    </form>
+                    <div>
+                    </div>
+                </div>
+            </ng-template>
+
+        </div>
+        <div *ngIf="!registered" class="container">
+            <div id="carouselExampleControls" class="carousel slide" data-interval="false">
+                <div class="carousel-inner">
+                    <div *ngFor="let elective of allelective" class="carousel-item">
+                        <div class="card">
+                            <div class="card-header text-light bg-dark">
+                                {{elective.coursename}}
+                            </div>
+                            <div class="card-body text-dark bg-transparent">
+                                <h6 class="card-title">Overview : {{elective.overview}}</h6>
+                                <div *ngIf="elective.details.length <= 20">
+                                    <p class="card-text">{{elective.details}}</p>
+                                </div>
+                                <div *ngIf="elective.details.length > 20">
+                                    <div *ngFor="let detail of objectKeys(electiveDetails[elective.coursecode])">
+                                        <h6 class="card-title">{{detail}}</h6>
+                                        <p class="card-text">{{electiveDetails[elective.coursecode][detail]}}</p>
+                                        <hr/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item active">
+                        <div class="jumbotron">
+                            <h1 class="display-2">Electives at a Glance</h1>
+                            <p class="lead">Have a look at course plan of each available electives</p><br/>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon border-primary" style="filter: invert(100%)" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" style="filter: invert(100%)" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</div>

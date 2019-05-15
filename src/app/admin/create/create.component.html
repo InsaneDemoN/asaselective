@@ -1,0 +1,68 @@
+<div>
+    <div class="align-content-center text-center" *ngIf="isSignedUp; else signUpForm">
+        <h2>Your Registration is Successful. <a routerLink="/admin">Go Back</a></h2>
+    </div>
+
+    <ng-template #signUpForm>
+        <div class="container">
+            <h1 class="head">Register for an account</h1>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="role">Select role</label>
+                    <select class="form-control col" name="role" formControlName="role" required>
+                    <option value="admin">Admin</option>
+                    <option value="faculty" selected>Faculty</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Enter name</label>
+                    <input type="text" class="form-control col" name="name" formControlName="name" [ngClass]="{ 'is-invalid': name.invalid && name.touched, 'is-valid': name.valid  }" required>
+                    <div *ngIf="name.invalid && name.touched" class="invalid-feedback">Invalid name</div>
+                </div>
+                <div class="form-group">
+                    <label for="username">Enter Roll No </label>
+                    <input type="text" class="form-control col" [ngClass]="{ 'is-invalid': username.invalid && username.touched, 'is-valid': username.valid  }" name="username" formControlName="username" required />
+                    <div *ngIf="username.invalid && username.touched" class="invalid-feedback">Username is invalid</div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Enter Email </label>
+                    <input type="text" class="form-control col" oninput="this.value = this.value.toLowerCase()" [ngClass]="{ 'is-invalid': email.invalid && email.touched, 'is-valid': email.valid  }" name="email" formControlName="email" required />
+                    <div *ngIf="email.invalid && email.touched" class="invalid-feedback">email is invalid</div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Enter Password</label>
+                    <input type="password" class="form-control col" name="password" formControlName="password" [ngClass]="{ 'is-invalid': password.invalid && password.touched, 'is-valid': password.valid  }" />
+                    <div *ngIf="password.errors && (password.touched || password.dirty )" class="invalid-feedback">
+                        <p *ngIf="password.hasError('required')">Password required</p>
+                        <p *ngIf="password.hasError('minlength')">Password should contain minimum 6 letters</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cpassword">Confirm Password</label>
+                    <input type="password" class="form-control col" name="cpassword" [ngClass]="{ 'is-invalid': (registerForm.hasError('mismatch') || cpassword.invalid) && cpassword.touched, 'is-valid': !registerForm.hasError('mismatch') && cpassword.touched && cpassword.valid  }"
+                        formControlName="cpassword" />
+                    <div *ngIf="(registerForm.hasError('mismatch') || cpassword.invalid) && cpassword.touched" class="invalid-feedback">
+                        <p>Password Mismatch</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name">Enter Department</label>
+                    <select class="form-control col" name="department" formControlName="department" required>
+                     <ng-container *ngIf="!formisAdmin"><option *ngFor="let department of departments"  [ngValue]="department">{{department}}</option></ng-container>
+                      <option value="Administrative" *ngIf="formisAdmin">Administrative</option>
+                    </select>
+                </div>
+                <div *ngIf="!loading">
+                    <button [disabled]="registerForm.invalid" type="submit" class="btn btn-dark">Submit</button>
+                </div>
+                <div *ngIf="loading">
+                    <div class="spinner-border text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div *ngIf="submitted && isSignUpFailed" class="alert alert-danger alert-dismissible">{{errorMessage}}</div>
+            </form>
+
+        </div>
+    </ng-template>
+</div>

@@ -1,0 +1,48 @@
+<div class="container">
+    <br/>
+    <a routerLink="/student"><i class="fas bckbtn fa-arrow-circle-left text-danger fa-2x"></i></a>
+    <div *ngIf="details && userElective" class="text-center">
+        <form (ngSubmit)="onSubmit()">
+            <div class="form-group row">
+                <label for="studentName" class="col-md-4 col-form-label">Student Name:</label>
+                <div class="col-md-8">
+                    <input type="text" readonly class="form-control-plaintext" id="studentName" value="{{details.name}}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="studentroll" class="col-md-4 col-form-label">Roll No:</label>
+                <div class="col-md-8">
+                    <input type="text" readonly class="form-control-plaintext" id="studentroll" value="{{details.username}}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-md-4 col-form-label">Email:</label>
+                <div class="col-md-8">
+                    <input type="email" class="form-control" id="email" [(ngModel)]="details.email" name="email" #name="ngModel" value="{{details.email}}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="studentName" class="col-md-4 col-form-label">Department:</label>
+                <div class="col-md-8">
+                    <input type="text" readonly class="form-control-plaintext" id="department" value="{{details.department}}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="programme" class="col-md-4 col-form-label">Programme:</label>
+                <div class="col-md-7">
+                    <input type="text" readonly class="form-control-plaintext" id="programme" value="{{details.programme}}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="elective" class="col-md-4 col-form-label">Selected Elective:</label>
+                <div class="col-md-8">
+                    <input type="text" readonly class="form-control-plaintext" id="elective" value="{{userElective.elective}}">
+                </div>
+            </div>
+            <div>
+                <input class="btn btn-success" type="submit" value="Update Email">
+            </div>
+        </form>
+    </div>
+</div>
